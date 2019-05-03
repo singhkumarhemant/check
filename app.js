@@ -26,7 +26,7 @@ const db = require('./config/database');
 mongoose.Promise = global.Promise;
 // Connect to mongoose
 mongoose
-  .connect('mongodb://singhkumarhemant:Agile@1122@ds149596.mlab.com:49596/expressadminpanel', {
+  .connect('mongodb://expressadminpanel:Agile@1122@ds149596.mlab.com:49596/expressadminpanel', {
     useMongoClient: true
   })
   .then(() => console.log('MongoDB Connected!!!...'))
