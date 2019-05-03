@@ -1,0 +1,53 @@
+<div>
+    <form action="/proposals/add" method="post">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Model Id</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                {{#each model}}
+                <tr>
+                    <th scope="row"><input type="checkbox" name="mycheck" value="{{modelId}}" class="charge"
+                            data-cash="{{cost}}" /></th>
+                    <td>{{modelId}} </td>
+                    <td>{{name}} </td>
+                    <td>{{qty}}</td>
+                    <td>{{description}}</td>
+                    <td>{{rate}}</td>
+                    <td>{{cost}}</td>
+                </tr>
+                {{/each}}
+                {{/each}}
+            </tbody>
+        </table>
+        <hr>
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6 text-center" style="display: inherit;margin-left: 85%;">
+                <div class="">Total: <br></div>
+                <div class="total"></div>
+            </div>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+
+</div>
+<script>
+    var $cs = $('.charge').change(function () {
+        var v = 0;
+        $cs.filter(':checked').each(function () {
+            v += $(this).data('cash');
+        })
+        $('.total').html(v);
+    });
+    $('.charge:checked').change();
+</script>

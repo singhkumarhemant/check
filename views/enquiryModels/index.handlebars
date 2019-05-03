@@ -1,0 +1,22 @@
+<br>
+<center>
+  <select id="mynewid" name="hks" class="mynewclass" onChange="changeInput(value)">
+    <option>select value</option>
+    {{#each enquiryModels}}
+    <option value="{{enquiryId}}">{{enquiryId}}</option>
+    {{/each}}
+  </select>
+</center>
+<br>
+<div class="clearfix"></div>
+
+<script>
+  function changeInput(enquiryId) {
+    var url = "/enquiryModels/data/" + enquiryId;
+    $.get(url, function (data) {
+      $('#enquiry-table').html(data);
+    });
+  };
+</script>
+
+<div id="enquiry-table">Please choose value...</div>

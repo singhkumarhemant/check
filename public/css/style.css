@@ -1,0 +1,16 @@
+.logo{
+    width: 130 px;
+    margin: auto;
+}
+
+.bg-primary {
+    background-color: #27b39e!important; 
+ }
+
+ .navbar-dark .navbar-brand {
+    color: #dc3545;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #230003cf;
+}
