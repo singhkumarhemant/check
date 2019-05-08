@@ -7,7 +7,7 @@
 # Live Demo :- https://fierce-harbor-60177.herokuapp.com/
 
 #run app ==> 
-> npm install
-> npm run start
+# > npm install
+# > npm run start
 
 #localhost ==> https://localhost:5000/
