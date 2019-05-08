@@ -17,21 +17,30 @@
         <li class="nav-item">
           <a class="nav-link" href="/proposals">Proposal</a>
         </li>
+        <li class="nav-item">
+          <a href="/enquiryModels" class="nav-link">Enquiries
+          </a>
+        </li>
         {{/if}}
       </ul>
       <ul class="navbar-nav ml-auto">
         {{#if user}}
-        <li class="nav-item dropdown">
+        {{!-- <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Control
             Panel</a>
           <div class="dropdown-menu">
             <a href="/enquiryModels" class="dropdown-item">See Enquiries
             </a>
           </div>
+        </li> --}}
+        <li class="nav-item">
+          <div class="nav-link">
+            Welcome {{user.name}}
+          </div>
         </li>
 
         <li class="nav-item">
-          <a href="/users/logout" class="nav-link">LogOut</a>
+          <a href="/users/logout" class="nav-link">Logout</a>
         </li>
         {{else}}
         <li class="nav-item">

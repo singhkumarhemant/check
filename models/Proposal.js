@@ -3,13 +3,22 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const ProposalSchema = new Schema({
-  name: String,
-  modelId: String,
-  qty: Number,
-  description: String,
-  rate: Number,
-  cost: Number,
-  userId: String
+  enquiryId: {
+    type: String
+  },
+  userId: {
+    type: String
+  },
+  proposal: [
+    {
+      modelId: String,
+      name: String,
+      qty: Number,
+      description: String,
+      rate: Number,
+      cost: Number
+    }
+  ]
 });
 // mongoose.model('proposals', ProposalSchema);
 var collectionName = 'proposals';

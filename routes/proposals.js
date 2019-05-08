@@ -5,9 +5,6 @@ const { ensureAuthenticated } = require('../helpers/auth');
 const Proposal = require('../models/Proposal');
 const EnquiryModels = require('../models/EnquiryModel');
 
-// require('../models/Proposal');
-// const Proposal = mongoose.model('proposals');
-
 router.get('/', ensureAuthenticated, (req, res) => {
   Proposal.find(
     {
@@ -17,11 +14,8 @@ router.get('/', ensureAuthenticated, (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        var uniqueProposals = [];
-        uniqueProposals = removeDuplicates(proposals, 'modelId');
-        // console.log(n);
         res.render('proposals/index', {
-          proposals: uniqueProposals
+          proposals: proposals
         });
       }
     }
@@ -44,6 +38,88 @@ function removeDuplicates(originalArray, objKey) {
 
   return trimmedArray;
 }
+
+router.post('/search-and-add', ensureAuthenticated, (req, res) => {
+  if (typeof req.body.name == 'string' || req.body.name instanceof String) {
+    var p_arr = [];
+    var p_obj = {
+      name: req.body.name,
+      qty: parseInt(req.body.qty, 10),
+      description: req.body.description,
+      rate: parseInt(req.body.rate, 10),
+      cost: parseInt(req.body.cost, 10),
+      modelId: req.body.modelId
+    };
+    p_arr.push(p_obj);
+    const newProposal = new Proposal({
+      enquiryId: req.body.enquiryId,
+      userId: req.user.id,
+      proposal: p_arr
+    });
+    newProposal
+      .save()
+      .then(proposal => {
+        Proposal.find(
+          {
+            userId: req.user.id
+          },
+          function(err, proposals) {
+            if (err) {
+              console.log(err);
+            } else {
+              res.render('proposals/index', {
+                proposals: proposals
+              });
+            }
+          }
+        );
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  } else {
+    var len = req.body.modelId.length;
+    var p_arr1 = [];
+    for (let i = 0; i < len; i++) {
+      var p_obj1 = {
+        name: req.body.name[i],
+        qty: parseInt(req.body.qty[i], 10),
+        description: req.body.description[i],
+        rate: parseInt(req.body.rate[i], 10),
+        cost: parseInt(req.body.cost[i], 10),
+        modelId: req.body.modelId[i]
+      };
+      p_arr1.push(p_obj1);
+    }
+
+    const newProposal = new Proposal({
+      enquiryId: req.body.enquiryId[0],
+      userId: req.user.id,
+      proposal: p_arr1
+    });
+    newProposal
+      .save()
+      .then(proposal => {
+        Proposal.find(
+          {
+            userId: req.user.id
+          },
+          function(err, proposals) {
+            if (err) {
+              console.log(err);
+            } else {
+              res.render('proposals/index', {
+                proposals: proposals
+              });
+            }
+          }
+        );
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+});
 
 router.post('/add', ensureAuthenticated, (req, res) => {
   var newProposal = req.body.mycheck;

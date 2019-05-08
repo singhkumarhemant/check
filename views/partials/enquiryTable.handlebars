@@ -1,53 +1,106 @@
 <div>
-    <form action="/proposals/add" method="post">
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Model Id</th>
-                    <th scope="col">Model</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Rate</th>
-                    <th scope="col">Cost</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each data}}
-                {{#each model}}
-                <tr>
-                    <th scope="row"><input type="checkbox" name="mycheck" value="{{modelId}}" class="charge"
-                            data-cash="{{cost}}" /></th>
-                    <td>{{modelId}} </td>
-                    <td>{{name}} </td>
-                    <td>{{qty}}</td>
-                    <td>{{description}}</td>
-                    <td>{{rate}}</td>
-                    <td>{{cost}}</td>
-                </tr>
-                {{/each}}
-                {{/each}}
-            </tbody>
-        </table>
-        <hr>
-        <div class="row">
-            <div class="col-md-6"></div>
-            <div class="col-md-6 text-center" style="display: inherit;margin-left: 85%;">
-                <div class="">Total: <br></div>
-                <div class="total"></div>
-            </div>
-        </div>
-        <input type="submit" value="Submit">
-    </form>
-
+    <table class="table" id="myTable">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Enquiry Id</th>
+                <th scope="col">Model Id</th>
+                <th scope="col">Model</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Description</th>
+                <th scope="col">Rate</th>
+                <th scope="col">Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data}}
+            <tr>
+                <td><button class="btnSelect">Select</button></td>
+                <td>{{enquiryId}} </td>
+                <td>{{modelId}} </td>
+                <td>{{name}} </td>
+                <td>{{qty}}</td>
+                <td>{{description}}</td>
+                <td>{{rate}}</td>
+                <td>{{cost}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <hr>
 </div>
+<form id="finalTable">
+</form>
 <script>
-    var $cs = $('.charge').change(function () {
-        var v = 0;
-        $cs.filter(':checked').each(function () {
-            v += $(this).data('cash');
-        })
-        $('.total').html(v);
+    function myDeleteFn(r) {
+        var i = r.parentNode.parentNode.rowIndex;
+        document.getElementById("text_middle_table").deleteRow(i);
+    }
+
+    var body = document.getElementById("finalTable");
+    var tbl = document.createElement("table");
+    var thead = document.createElement('thead');
+    var tblBody = document.createElement("tbody");
+    tbl.appendChild(thead);
+    tbl.setAttribute("border", "1");
+    tbl.setAttribute('class', 'text-middle');
+    tbl.setAttribute('id', 'text_middle_table');
+    var orderArrayHeader = ["ENQ-ID", "Model_ID", "Model_NAME", "QUANTITY", "DESCRIPTION", "RATE", "TOTAL_COST", "DELETE"];
+    for (var l = 0; l < orderArrayHeader.length; l++) {
+        thead.appendChild(document.createElement("th")).
+            appendChild(document.createTextNode(orderArrayHeader[l]));
+    }
+    var newButton = document.createElement('input');
+    newButton.setAttribute("type", "submit");
+    newButton.setAttribute("value", "Submit");
+    newButton.setAttribute('class', 'middle');
+    var tableValArray = [];
+    var form_field_names = ["enquiryId", "modelId", "name", "qty", "description", "rate", "cost"];
+    $(document).ready(function () {
+
+        $(".btnSelect").on('click', function () {
+            var currentRow = $(this).closest("tr");
+            tbl.appendChild(tblBody);
+            body.appendChild(tbl);
+            body.appendChild(newButton);
+            for (var i = 0; i < 1; i++) {
+                var row = document.createElement("tr");
+                for (var j = 0; j < 8; j++) {
+                    if (j == 7) {
+                        var cell_d = document.createElement("td");
+                        var button_d = document.createElement("input");
+                        button_d.setAttribute("type", "button");
+                        button_d.setAttribute("value", "Delete");
+                        button_d.setAttribute("class", "myButtonId");
+                        $('.myButtonId').removeAttr('onclick');
+                        $('.myButtonId').attr('onClick', 'myDeleteFn(this);');
+                        row.appendChild(cell_d);
+                        cell_d.appendChild(button_d);
+                    } else {
+                        var k = j + 1;
+                        var cell = document.createElement("td");
+                        var cellText1 = currentRow.find("td:eq(" + k + ")").html();
+                        var cellText = document.createTextNode(cellText1);
+                        var input = document.createElement("input");
+                        input.setAttribute("type", "hidden");
+                        input.setAttribute("name", form_field_names[j]);
+                        input.setAttribute("value", cellText1);
+                        cell.appendChild(cellText);
+                        row.appendChild(cell);
+                        cell.appendChild(input);
+                    }
+                }
+                tblBody.appendChild(row);
+            }
+        });
     });
-    $('.charge:checked').change();
+
+    document.getElementById('finalTable').addEventListener('submit', function (event) {
+        $.post('/proposals/search-and-add', $("#finalTable").serialize(), function (data) {
+            var strWindowFeatures = "location=yes,height=570,width=520,scrollbars=yes,status=yes";
+            var URL = "http://localhost:5000/proposals";
+            window.open(URL, "_self", strWindowFeatures);
+        });
+        event.preventDefault();
+    })
 </script>

@@ -1,29 +1,41 @@
-<div class="jumbotron text-center" style="color: #020401; background-color:#27b39e ;">
-  <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Model Id</th>
-        <th scope="col">
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          Model</th>
-        <th scope="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quantity</th>
-        <th scope="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Description</th>
-        <th scope="col">&nbsp;&nbsp;&nbsp;&nbsp;Rate</th>
-        <th scope="col">&nbsp;&nbsp;&nbsp;&nbsp;Cost</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each proposals}}
-      <tr>
-        <td>{{modelId}} </td>
-        <td>{{name}} </td>
-        <td>{{qty}}</td>
-        <td>{{description}}</td>
-        <td>{{rate}}</td>
-        <td>{{cost}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-</div>
+<table id="bindTable" class="table" CELLPADDING="5" CELLSPACING="0" BORDER="1" align="center">
+  <thead>
+    <tr>
+      <th align="center">ENQ Id</th>
+      <th align="center">Model Id</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each proposals}}
+    <tr>
+      <td align="center">{{enquiryId}}</td>
+      <td>
+        <TABLE CELLPADDING="5" CELLSPACING="0" BORDER="1" align="center">
+          <THEAD>
+            <TR>
+              <TH ALIGN="center"> Model_Id </TH>
+              <TH ALIGN="center"> Name </TH>
+              <TH ALIGN="center"> Description </TH>
+              <TH ALIGN="center"> Qty </TH>
+              <TH ALIGN="center"> rate </TH>
+              <TH ALIGN="center"> cost </TH>
+            </TR>
+          </THEAD>
+          <TBODY>
+            {{#each proposal}}
+            <TR>
+              <TD ALIGN="center"> {{modelId}} </TD>
+              <TD ALIGN="center"> {{name}} </TD>
+              <TD ALIGN="center"> {{description}}</TD>
+              <TD ALIGN="center"> {{qty}} </TD>
+              <TD ALIGN="center"> {{rate}}</TD>
+              <TD ALIGN="center"> {{cost}} </TD>
+            </TR>
+            {{/each}}
+          </TBODY>
+        </TABLE>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

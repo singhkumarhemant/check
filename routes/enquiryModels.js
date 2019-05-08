@@ -39,6 +39,38 @@ router.get('/data/:enqId', ensureAuthenticated, (req, res) => {
   );
 });
 
-
+router.get('/search', ensureAuthenticated, (req, res) => {
+  EnquiryModels.find(
+    {
+      $and: [
+        { 'model.name': { $regex: req.query.item, $options: 'i' } },
+        { enquiryId: req.query.enqId }
+      ]
+    },
+    function(err, response) {
+      if (err) {
+        console.log(err);
+      } else {
+        var data = [];
+        response.forEach(function(enquiry) {
+          enquiry['model'].forEach(function(modelData) {
+            var modelNameLower = modelData.name.toLowerCase();
+            if (modelNameLower.includes(req.query.item)) {
+              var a = {
+                enquiryId: req.query.enqId
+              };
+              var newObj = { ...modelData.toObject(), ...a };
+              data.push(newObj);
+            }
+          });
+        });
+        res.render('partials/enquiryTable', {
+          layout: false,
+          data: data
+        });
+      }
+    }
+  );
+});
 
 module.exports = router;
