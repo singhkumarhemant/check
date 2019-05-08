@@ -98,7 +98,7 @@
     document.getElementById('finalTable').addEventListener('submit', function (event) {
         $.post('/proposals/search-and-add', $("#finalTable").serialize(), function (data) {
             var strWindowFeatures = "location=yes,height=570,width=520,scrollbars=yes,status=yes";
-            var URL = "http://localhost:5000/proposals";
+            var URL = window.location.origin + "/proposals";
             window.open(URL, "_self", strWindowFeatures);
         });
         event.preventDefault();
